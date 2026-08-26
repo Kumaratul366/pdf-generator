@@ -1,8 +1,9 @@
-/*
+
 
 import { getPriceData } from "../services/price-service.js";
 import { generatePricePDF } from "../services/pdf-service.js";
 
+/*
 
 const today = new Date();
 
