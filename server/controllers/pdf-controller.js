@@ -1,3 +1,5 @@
+/*
+
 import { getPriceData } from "../services/price-service.js";
 import { generatePricePDF } from "../services/pdf-service.js";
 
@@ -49,3 +51,41 @@ const downloadPricePDF = async (req, res) => {
 };
 
 export { downloadPricePDF };
+
+
+*/
+
+
+const downloadPricePDF = async (req, res) => {
+  try {
+    console.log("1. PDF request received");
+
+    console.log("2. Fetching price data...");
+    const priceData = await getPriceData();
+
+    console.log("3. Price data received:", priceData);
+
+    console.log("4. Generating PDF...");
+    const pdf = await generatePricePDF(priceData);
+
+    console.log("5. PDF generated successfully");
+
+    res.setHeader("Content-Type", "application/pdf");
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${fileName}"`
+    );
+
+    res.send(pdf);
+
+  } catch (error) {
+    console.error("❌ PDF generation error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Unable to generate PDF",
+      error: error.message,
+    });
+  }
+};
