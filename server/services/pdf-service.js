@@ -1,10 +1,14 @@
 import puppeteer from "puppeteer";
 import fs from "fs";
-import path, { dirname } from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// =========================================================
+// FILE PATHS
+// =========================================================
 
 const dubaiBoldPath = path.join(
   __dirname,
@@ -26,73 +30,239 @@ const calibriPath = path.join(
   "../fonts/calibri.ttf"
 );
 
-const dubaiBoldBase64 = fs.readFileSync(dubaiBoldPath).toString("base64");
-const dubaiRegularBase64 = fs.readFileSync(dubaiRegularPath).toString("base64");
-const dubaiMediumBase64 = fs.readFileSync(dubaiMediumPath).toString("base64");
-const calibriBase64 = fs.readFileSync(calibriPath).toString("base64");
+const bridgePath = path.join(
+  __dirname,
+  "../assets/bridge.png"
+);
 
-const bridgePath = path.join(__dirname, "../assets/bridge.png");
-const stampPath = path.join(__dirname, "../assets/TMT-Stamp.png");
-const thicknessPath = path.join(__dirname, "../assets/12m.png");
-const bottomPath = path.join(__dirname, "../assets/bottom.png");
-const footerDetailPath = path.join(__dirname, "../assets/footer-detail.png");
-const homeDeliveryPath = path.join(__dirname, "../assets/home-delivery.png");
-const pricePath = path.join(__dirname, "../assets/price.png");
-const telephonePath = path.join(__dirname, "../assets/telephone.png");
-const tmtBarPath = path.join(__dirname, "../assets/image.png");
-const webPath = path.join(__dirname, "../assets/web.png");
-const logoPath = path.join(__dirname, "../assets/logo_JSW-one.png");
+const stampPath = path.join(
+  __dirname,
+  "../assets/TMT-Stamp.png"
+);
 
-const fonts = path.join(__dirname, "../fonts");
+const thicknessPath = path.join(
+  __dirname,
+  "../assets/12m.png"
+);
 
-const bridgeBase64 = fs.readFileSync(bridgePath).toString("base64");
-const stampBase64 = fs.readFileSync(stampPath).toString("base64");
-const logoBase64 = fs.readFileSync(logoPath).toString("base64");
-const webBase64 = fs.readFileSync(webPath).toString("base64");
-const telephoneBase64 = fs.readFileSync(telephonePath).toString("base64");
-const tmtbarBase64 = fs.readFileSync(tmtBarPath).toString("base64");
-const deliveryBase64 = fs.readFileSync(homeDeliveryPath).toString("base64");
+const bottomPath = path.join(
+  __dirname,
+  "../assets/bottom.png"
+);
 
-const footerDetailsBase64 =
-  fs.readFileSync(footerDetailPath).toString("base64");
+const footerDetailPath = path.join(
+  __dirname,
+  "../assets/footer-detail.png"
+);
 
-const footerBgBase64 = fs.readFileSync(bottomPath).toString("base64");
-const thicknessBase64 = fs.readFileSync(thicknessPath).toString("base64");
-const priceBase64 = fs.readFileSync(pricePath).toString("base64");
+const homeDeliveryPath = path.join(
+  __dirname,
+  "../assets/home-delivery.png"
+);
 
-const bridgeSrc = `data:image/png;base64,${bridgeBase64}`;
-const stampSrc = `data:image/png;base64,${stampBase64}`;
-const logoSrc = `data:image/png;base64,${logoBase64}`;
-const webSrc = `data:image/png;base64,${webBase64}`;
-const telephoneSrc = `data:image/png;base64,${telephoneBase64}`;
-const tmtbarSrc = `data:image/png;base64,${tmtbarBase64}`;
-const deliverySrc = `data:image/png;base64,${deliveryBase64}`;
-const footerDetailsSrc = `data:image/png;base64,${footerDetailsBase64}`;
-const footerBgSrc = `data:image/png;base64,${footerBgBase64}`;
-const priceSrc = `data:image/png;base64,${priceBase64}`;
-const thicknessSrc = `data:image/png;base64,${thicknessBase64}`;
+const pricePath = path.join(
+  __dirname,
+  "../assets/price.png"
+);
+
+const telephonePath = path.join(
+  __dirname,
+  "../assets/telephone.png"
+);
+
+const tmtBarPath = path.join(
+  __dirname,
+  "../assets/image.png"
+);
+
+const webPath = path.join(
+  __dirname,
+  "../assets/web.png"
+);
+
+const logoPath = path.join(
+  __dirname,
+  "../assets/logo_JSW-one.png"
+);
+
+// =========================================================
+// LOAD FILES AS BASE64
+// =========================================================
+
+const dubaiBoldBase64 = fs
+  .readFileSync(dubaiBoldPath)
+  .toString("base64");
+
+const dubaiRegularBase64 = fs
+  .readFileSync(dubaiRegularPath)
+  .toString("base64");
+
+const dubaiMediumBase64 = fs
+  .readFileSync(dubaiMediumPath)
+  .toString("base64");
+
+const calibriBase64 = fs
+  .readFileSync(calibriPath)
+  .toString("base64");
+
+const bridgeBase64 = fs
+  .readFileSync(bridgePath)
+  .toString("base64");
+
+const stampBase64 = fs
+  .readFileSync(stampPath)
+  .toString("base64");
+
+const logoBase64 = fs
+  .readFileSync(logoPath)
+  .toString("base64");
+
+const webBase64 = fs
+  .readFileSync(webPath)
+  .toString("base64");
+
+const telephoneBase64 = fs
+  .readFileSync(telephonePath)
+  .toString("base64");
+
+const tmtbarBase64 = fs
+  .readFileSync(tmtBarPath)
+  .toString("base64");
+
+const deliveryBase64 = fs
+  .readFileSync(homeDeliveryPath)
+  .toString("base64");
+
+const footerDetailsBase64 = fs
+  .readFileSync(footerDetailPath)
+  .toString("base64");
+
+const footerBgBase64 = fs
+  .readFileSync(bottomPath)
+  .toString("base64");
+
+const thicknessBase64 = fs
+  .readFileSync(thicknessPath)
+  .toString("base64");
+
+const priceBase64 = fs
+  .readFileSync(pricePath)
+  .toString("base64");
+
+// =========================================================
+// IMAGE SOURCES
+// =========================================================
+
+const bridgeSrc =
+  `data:image/png;base64,${bridgeBase64}`;
+
+const stampSrc =
+  `data:image/png;base64,${stampBase64}`;
+
+const logoSrc =
+  `data:image/png;base64,${logoBase64}`;
+
+const webSrc =
+  `data:image/png;base64,${webBase64}`;
+
+const telephoneSrc =
+  `data:image/png;base64,${telephoneBase64}`;
+
+const tmtbarSrc =
+  `data:image/png;base64,${tmtbarBase64}`;
+
+const deliverySrc =
+  `data:image/png;base64,${deliveryBase64}`;
+
+const footerDetailsSrc =
+  `data:image/png;base64,${footerDetailsBase64}`;
+
+const footerBgSrc =
+  `data:image/png;base64,${footerBgBase64}`;
+
+const priceSrc =
+  `data:image/png;base64,${priceBase64}`;
+
+const thicknessSrc =
+  `data:image/png;base64,${thicknessBase64}`;
+
+// =========================================================
+// GENERATE PDF
+// =========================================================
 
 async function generatePricePDF(data) {
-  console.log("Puppeteer executable:", puppeteer.executablePath());
-  const browser = await puppeteer.launch({
-  headless: true,
-  args: [
-    "--no-sandbox",
-    "--disable-setuid-sandbox",
-    "--disable-dev-shm-usage",
-    "--disable-gpu",
-  ],
-});
+  let browser;
 
   try {
+    console.log("Starting PDF generation...");
+
+    // -----------------------------------------------------
+    // Resolve Puppeteer executable path
+    // -----------------------------------------------------
+
+    const executablePath =
+      await puppeteer.executablePath();
+
+    console.log(
+      "Puppeteer executable:",
+      executablePath
+    );
+
+    // -----------------------------------------------------
+    // Launch Chromium
+    // -----------------------------------------------------
+
+    browser = await puppeteer.launch({
+      headless: true,
+
+      executablePath,
+
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--disable-software-rasterizer",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-renderer-backgrounding",
+        "--disable-features=Translate,BackForwardCache",
+      ],
+
+      timeout: 60000,
+    });
+
+    console.log("Chromium launched successfully.");
+
     const page = await browser.newPage();
 
-    // Exact A4 at 96 DPI
+    // -----------------------------------------------------
+    // A4 viewport
+    // -----------------------------------------------------
+
     await page.setViewport({
       width: 794,
       height: 1123,
       deviceScaleFactor: 1,
     });
+
+    // -----------------------------------------------------
+    // Browser settings
+    // -----------------------------------------------------
+
+    await page.setUserAgent(
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+        "AppleWebKit/537.36 (KHTML, like Gecko) " +
+        "Chrome/151.0.0.0 Safari/537.36"
+    );
+
+    await page.setExtraHTTPHeaders({
+      "Accept-Language": "en-US,en;q=0.9",
+    });
+
+    // -----------------------------------------------------
+    // Prepare table rows
+    // -----------------------------------------------------
 
     const rows = data.priceList
       .map(
@@ -105,11 +275,17 @@ async function generatePricePDF(data) {
       )
       .join("");
 
-     const html = `
-<!DOCTYPE html5>
+    // =====================================================
+    // HTML
+    // =====================================================
+
+    const html = `
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
+
+<meta charset="UTF-8">
 
 <style>
 
@@ -125,29 +301,36 @@ async function generatePricePDF(data) {
 @font-face {
   font-family: "Dubai";
   src: url("data:font/ttf;base64,${dubaiBoldBase64}") format("truetype");
-
+  font-weight: 800;
+  font-style: normal;
 }
 
 @font-face {
   font-family: "Dubai-Re";
   src: url("data:font/ttf;base64,${dubaiRegularBase64}") format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
   font-family: "Dubai-Me";
   src: url("data:font/ttf;base64,${dubaiMediumBase64}") format("truetype");
+  font-weight: 500;
+  font-style: normal;
 }
 
 @font-face {
   font-family: "Calibri";
   src: url("data:font/ttf;base64,${calibriBase64}") format("truetype");
   font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
   font-family: "Calibri-B";
   src: url("data:font/ttf;base64,${calibriBase64}") format("truetype");
   font-weight: 400;
+  font-style: normal;
 }
 
 html,
@@ -167,11 +350,6 @@ body {
   print-color-adjust: exact;
 }
 
-
-/* =========================================================
-   A4 PAGE
-========================================================= */
-
 .page {
   position: relative;
 
@@ -182,11 +360,6 @@ body {
 
   background: #243a7c;
 }
-
-
-/* =========================================================
-   BRIDGE BACKGROUND
-========================================================= */
 
 .bridge-background {
   position: absolute;
@@ -202,11 +375,6 @@ body {
 
   z-index: 0;
 }
-
-
-/* =========================================================
-   TOP RIGHT BLUE AREA
-========================================================= */
 
 .blue-overlay {
   position: absolute;
@@ -227,14 +395,9 @@ body {
   );
 
   z-index: 1;
+
   display: none;
-
 }
-
-
-/* =========================================================
-   JSW ONE LOGO
-========================================================= */
 
 .jsw-logo {
   position: absolute;
@@ -250,11 +413,6 @@ body {
   z-index: 20;
 }
 
-
-/* =========================================================
-   MAIN CONTENT
-========================================================= */
-
 .content {
   position: absolute;
 
@@ -268,45 +426,31 @@ body {
   z-index: 5;
 }
 
-
-/* =========================================================
-   TITLE
-========================================================= */
-
 .title {
   color: #fff;
-  font-family: 'Dubai';
+
+  font-family: "Dubai";
+
   font-size: 37px;
   line-height: 42px;
 
   font-weight: 800;
 
   letter-spacing: -0.9px;
-
 }
-
-
-/* =========================================================
-   RED LINE
-========================================================= */
 
 .red-line {
   width: 463px;
   height: 5px;
 
   background: #e63832;
-
-  
 }
-
-
-/* =========================================================
-   CONTACT ROW
-========================================================= */
 
 .contact-row {
   display: flex;
-  font-family: 'Dubai';
+
+  font-family: "Dubai";
+
   align-items: center;
 
   column-gap: 40px;
@@ -316,7 +460,9 @@ body {
   font-size: 25px;
 
   font-weight: 600;
-  letter-spacing: -0.5;
+
+  letter-spacing: -0.5px;
+
   margin-bottom: 20px;
 }
 
@@ -339,11 +485,6 @@ body {
   display: block;
 }
 
-
-/* =========================================================
-   TMT STAMP
-========================================================= */
-
 .certification {
   position: absolute;
 
@@ -363,27 +504,21 @@ body {
   object-fit: contain;
 }
 
-
-/* =========================================================
-   STATE
-========================================================= */
-
 .state {
   color: #fff;
-  font-family: 'Dubai-Re';
+
+  font-family: "Dubai-Re";
+
   font-size: 25px;
 
   margin-bottom: 12px;
 }
 
-
-/* =========================================================
-   PRICE BOX
-========================================================= */
-
 .price-box {
   width: 100%;
-  font-family: 'Dubai-Me';
+
+  font-family: "Dubai-Me";
+
   background: #fff;
 }
 
@@ -437,17 +572,13 @@ td:last-child {
   width: 60%;
 }
 
-
-/* =========================================================
-   EFFECTIVE DATE
-========================================================= */
-
 .effective {
   height: 44px;
 
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   background: #fff;
@@ -455,26 +586,25 @@ td:last-child {
   border-left: 1px solid #3156a3;
   border-right: 1px solid #3156a3;
   border-bottom: 1px solid #3156a3;
-  
 
   font-size: 20px;
-  font-family: 'Calibri-B';
+
+  font-family: "Calibri-B";
+
   font-weight: 600;
-  
 }
-
-
-/* =========================================================
-   ENGINEERING STATEMENT
-========================================================= */
 
 .statement {
   height: 48px;
 
   display: flex;
-  font-family: 'Calibri-B';
+
+  font-family: "Calibri-B";
+
   font-weight: 600;
+
   align-items: center;
+
   justify-content: center;
 
   background: #fff;
@@ -485,19 +615,18 @@ td:last-child {
   border-right: 1px solid #3156a3;
 
   font-size: 17px;
-
 }
-
-
-/* =========================================================
-   FEATURES
-========================================================= */
 
 .features {
   height: 110px;
+
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr 1fr;
+
   background: #fff;
+
   border-left: 1px solid #3156a3;
   border-right: 1px solid #3156a3;
   border-bottom: 1px solid #3156a3;
@@ -505,42 +634,51 @@ td:last-child {
 
 .feature {
   text-align: center;
+
   color: #3e5a9d;
+
   font-size: 9px;
+
   font-weight: 700;
+
   line-height: 13px;
+
   padding: 10px 10px 8px;
 }
 
 .feature-icon {
   height: 38px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   padding-bottom: 3px;
+
   margin-bottom: 5px;
 }
 
 .feature-icon img {
   max-width: 42px;
   max-height: 32px;
+
   width: auto;
   height: auto;
+
   object-fit: contain;
 }
 
 .feature-text {
   max-width: 165px;
-  font-family: 'Calibri';
+
+  font-family: "Calibri";
+
   font-size: 13px;
+
   margin: auto;
-  
 }
-
-
-/* =========================================================
-   TMT BAR STRIP
-========================================================= */
 
 .rebar {
   position: relative;
@@ -552,8 +690,6 @@ td:last-child {
   overflow: hidden;
 
   background: #243a7c;
-
-  
 }
 
 .rebar-image {
@@ -569,11 +705,6 @@ td:last-child {
 
   display: block;
 }
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
 
 .bottom-area {
   position: absolute;
@@ -591,11 +722,6 @@ td:last-child {
   z-index: 8;
 }
 
-
-/* =========================================================
-   FOOTER BACKGROUND
-========================================================= */
-
 .footer-background {
   position: absolute;
 
@@ -606,17 +732,13 @@ td:last-child {
   height: 100%;
 
   object-fit: cover;
+
   object-position: center center;
 
   display: block;
 
   z-index: 0;
 }
-
-
-/* =========================================================
-   FOOTER DETAILS
-========================================================= */
 
 .footer-details-image {
   position: absolute;
@@ -639,17 +761,14 @@ td:last-child {
 }
 
 </style>
-</head>
 
+</head>
 
 <body>
 
 <div class="page">
 
-
-  <!-- =====================================================
-       BRIDGE BACKGROUND
-  ====================================================== -->
+  <!-- BRIDGE BACKGROUND -->
 
   <img
     class="bridge-background"
@@ -657,17 +776,11 @@ td:last-child {
     alt=""
   />
 
-
-  <!-- =====================================================
-       TOP RIGHT BLUE AREA
-  ====================================================== -->
+  <!-- TOP RIGHT BLUE AREA -->
 
   <div class="blue-overlay"></div>
 
-
-  <!-- =====================================================
-       JSW ONE LOGO
-  ====================================================== -->
+  <!-- JSW ONE LOGO -->
 
   <img
     class="jsw-logo"
@@ -675,13 +788,9 @@ td:last-child {
     alt="JSW ONE"
   />
 
-
-  <!-- =====================================================
-       MAIN CONTENT
-  ====================================================== -->
+  <!-- MAIN CONTENT -->
 
   <main class="content">
-
 
     <!-- TITLE -->
 
@@ -689,11 +798,9 @@ td:last-child {
       JSW One TMT Consumer Price
     </div>
 
-
-    <!-- SHORT RED LINE -->
+    <!-- RED LINE -->
 
     <div class="red-line"></div>
-
 
     <!-- CONTACT -->
 
@@ -711,7 +818,6 @@ td:last-child {
 
       </div>
 
-
       <div class="contact-item">
 
         <img
@@ -726,7 +832,6 @@ td:last-child {
 
     </div>
 
-
     <!-- TMT STAMP -->
 
     <div class="certification">
@@ -738,16 +843,16 @@ td:last-child {
 
     </div>
 
-
     <!-- STATE -->
 
     <div class="state">
-       For the state of <span style="font-family: 'Dubai';">Bihar</span>
+      For the state of
+      <span style="font-family: 'Dubai';">
+        Bihar
+      </span>
     </div>
 
-    <!-- =================================================
-         PRICE TABLE
-    ================================================== -->
+    <!-- PRICE TABLE -->
 
     <div class="price-box">
 
@@ -769,7 +874,6 @@ td:last-child {
 
         </thead>
 
-
         <tbody>
 
           ${rows}
@@ -778,13 +882,12 @@ td:last-child {
 
       </table>
 
-
       <!-- EFFECTIVE DATE -->
 
       <div class="effective">
-        With effective from: ${data.effectiveDate}
+        With effective from:
+        ${data.effectiveDate}
       </div>
-
 
       <!-- ENGINEERING STATEMENT -->
 
@@ -792,13 +895,9 @@ td:last-child {
         100% engineered TMT that exceeds BIS standards
       </div>
 
-
-      <!-- =================================================
-           FEATURES
-      ================================================== -->
+      <!-- FEATURES -->
 
       <div class="features">
-
 
         <!-- FEATURE 1 -->
 
@@ -825,7 +924,6 @@ td:last-child {
 
         </div>
 
-
         <!-- FEATURE 2 -->
 
         <div class="feature">
@@ -850,7 +948,6 @@ td:last-child {
           </div>
 
         </div>
-
 
         <!-- FEATURE 3 -->
 
@@ -877,13 +974,9 @@ td:last-child {
 
         </div>
 
-
       </div>
 
-
-      <!-- =================================================
-           TMT BAR
-      ================================================== -->
+      <!-- TMT BAR -->
 
       <div class="rebar">
 
@@ -895,20 +988,13 @@ td:last-child {
 
       </div>
 
-
     </div>
 
   </main>
 
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
+  <!-- FOOTER -->
 
   <section class="bottom-area">
-
-
-    <!-- FOOTER BACKGROUND -->
 
     <img
       class="footer-background"
@@ -916,28 +1002,98 @@ td:last-child {
       alt=""
     />
 
-
-    <!-- FOOTER DETAILS ON TOP OF BACKGROUND -->
-
     <img
       class="footer-details-image"
       src="${footerDetailsSrc}"
       alt="Kharakia Metals Private Limited"
     />
 
-
   </section>
-
 
 </div>
 
 </body>
+
 </html>
 `;
 
+    // =====================================================
+    // LOAD HTML
+    // =====================================================
+
+    console.log("Loading generated HTML...");
+
     await page.setContent(html, {
-      waitUntil: "networkidle0",
+      waitUntil: "domcontentloaded",
+      timeout: 60000,
     });
+
+    console.log(
+      "HTML loaded successfully."
+    );
+
+    // =====================================================
+    // WAIT FOR FONTS
+    // =====================================================
+
+    await page.evaluate(async () => {
+      if (document.fonts) {
+        await document.fonts.ready;
+      }
+    });
+
+    console.log(
+      "Fonts loaded successfully."
+    );
+
+    // =====================================================
+    // WAIT FOR IMAGES
+    // =====================================================
+
+    await page.evaluate(async () => {
+      const images = Array.from(
+        document.images
+      );
+
+      await Promise.all(
+        images.map((img) => {
+          if (img.complete) {
+            return Promise.resolve();
+          }
+
+          return new Promise((resolve) => {
+            img.addEventListener(
+              "load",
+              resolve,
+              { once: true }
+            );
+
+            img.addEventListener(
+              "error",
+              resolve,
+              { once: true }
+            );
+          });
+        })
+      );
+    });
+
+    console.log(
+      "Images loaded successfully."
+    );
+
+    // Small rendering delay
+    await new Promise((resolve) =>
+      setTimeout(resolve, 500)
+    );
+
+    // =====================================================
+    // GENERATE PDF
+    // =====================================================
+
+    console.log(
+      "Creating PDF..."
+    );
 
     const pdf = await page.pdf({
       format: "A4",
@@ -952,12 +1108,43 @@ td:last-child {
         bottom: "0",
         left: "0",
       },
+
+      timeout: 60000,
     });
+
+    console.log(
+      "PDF generated successfully."
+    );
 
     return pdf;
 
+  } catch (error) {
+    console.error(
+      "PDF generation failed:",
+      error
+    );
+
+    throw error;
+
   } finally {
-    await browser.close();
+
+    if (browser) {
+
+      try {
+        await browser.close();
+
+        console.log(
+          "Browser closed."
+        );
+
+      } catch (closeError) {
+
+        console.error(
+          "Error closing browser:",
+          closeError
+        );
+      }
+    }
   }
 }
 
