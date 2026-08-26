@@ -89,3 +89,5 @@ const downloadPricePDF = async (req, res) => {
     });
   }
 };
+
+export { downloadPricePDF };
