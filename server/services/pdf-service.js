@@ -75,9 +75,14 @@ const thicknessSrc = `data:image/png;base64,${thicknessBase64}`;
 async function generatePricePDF(data) {
   console.log("Puppeteer executable:", puppeteer.executablePath());
   const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  headless: true,
+  args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+    "--disable-gpu",
+  ],
+});
 
   try {
     const page = await browser.newPage();
