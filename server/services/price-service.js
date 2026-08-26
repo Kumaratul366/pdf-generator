@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-import puppeteer from "puppeteer";
 
 const EXTERNAL_URL = process.env.EXTERNAL_PRICE_URL;
 
@@ -8,60 +7,48 @@ async function getPriceData() {
     throw new Error("EXTERNAL_PRICE_URL is not defined");
   }
 
-  let browser;
-
   try {
-    console.log("Launching browser for price request...");
+    console.log("Requesting price data from:", EXTERNAL_URL);
 
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-      ],
+    // --------------------------------------------------
+    // Create POST form data
+    // --------------------------------------------------
+
+    const formData = new FormData();
+
+    formData.append("state", "Bihar");
+    formData.append("district", "Patna");
+    formData.append("action", "getprice");
+
+    // --------------------------------------------------
+    // Make POST request directly from Node.js
+    // --------------------------------------------------
+
+    const response = await fetch(EXTERNAL_URL, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+          "AppleWebKit/537.36 (KHTML, like Gecko) " +
+          "Chrome/151.0.0.0 Safari/537.36",
+        Referer: "https://www.jswonetmt.com/",
+        Origin: "https://www.jswonetmt.com",
+      },
     });
 
-    const page = await browser.newPage();
-
-    await page.setUserAgent(
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-        "Chrome/151.0.0.0 Safari/537.36"
+    console.log(
+      "External endpoint status:",
+      response.status
     );
 
-    await page.setExtraHTTPHeaders({
-      "Accept-Language": "en-US,en;q=0.9",
-    });
-
-    console.log("Requesting:", EXTERNAL_URL);
-
     // --------------------------------------------------
-    // Make POST request from Chromium
+    // Get response text
     // --------------------------------------------------
 
-    const responseText = await page.evaluate(async (url) => {
-      const formData = new FormData();
-
-      formData.append("state", "Bihar");
-      formData.append("district", "Patna");
-      formData.append("action", "getprice");
-
-      const response = await fetch(url, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `External endpoint returned ${response.status}`
-        );
-      }
-
-      return await response.text();
-    }, EXTERNAL_URL);
+    const responseText = await response.text();
 
     console.log(
       "External response received. Length:",
@@ -69,7 +56,22 @@ async function getPriceData() {
     );
 
     // --------------------------------------------------
-    // Parse JSON returned by external website
+    // Validate HTTP response
+    // --------------------------------------------------
+
+    if (!response.ok) {
+      console.error(
+        "External endpoint response:",
+        responseText.substring(0, 1000)
+      );
+
+      throw new Error(
+        `External endpoint returned ${response.status} ${response.statusText}`
+      );
+    }
+
+    // --------------------------------------------------
+    // Parse JSON
     // --------------------------------------------------
 
     let data;
@@ -81,7 +83,10 @@ async function getPriceData() {
         "Failed to parse external response as JSON."
       );
 
-      console.error(responseText.substring(0, 1000));
+      console.error(
+        "Response:",
+        responseText.substring(0, 1000)
+      );
 
       throw new Error(
         "External endpoint did not return valid JSON."
@@ -93,12 +98,22 @@ async function getPriceData() {
     // --------------------------------------------------
 
     if (!data.success) {
+      console.error(
+        "External endpoint returned success=false:",
+        data
+      );
+
       throw new Error(
         "External endpoint returned success=false."
       );
     }
 
     if (!data.results) {
+      console.error(
+        "External response does not contain results:",
+        data
+      );
+
       throw new Error(
         "External response does not contain price results."
       );
@@ -175,13 +190,22 @@ async function getPriceData() {
     }
 
     // --------------------------------------------------
-    // Validate extracted data
+    // Validate extracted price data
     // --------------------------------------------------
 
     if (
       sections.length === 0 ||
       prices.length === 0
     ) {
+      console.error(
+        "Could not find prices in returned HTML."
+      );
+
+      console.error(
+        "Returned HTML:",
+        html.substring(0, 2000)
+      );
+
       throw new Error(
         "No price data found in external response."
       );
@@ -227,7 +251,9 @@ async function getPriceData() {
       discount,
     };
 
-    console.log("Price data extracted successfully:");
+    console.log(
+      "Price data extracted successfully:"
+    );
 
     console.log(result);
 
@@ -240,12 +266,6 @@ async function getPriceData() {
     );
 
     throw error;
-
-  } finally {
-    if (browser) {
-      await browser.close();
-      console.log("Browser closed.");
-    }
   }
 }
 
